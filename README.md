@@ -42,8 +42,8 @@ python -m http.server 8000
 ## Kredit foto
 
 Sebagian foto produk diambil dari [Unsplash](https://unsplash.com) (Unsplash License), lalu latarnya dihapus:
-Howard Bouchevereau, Rubén Menárguez, Mike Meyers, Immanuel Noah, Yudhajit Ghosh, Quang Vy, Vựa Táo, Giorgio Trovato, dan fotografer Unsplash lain
-(foto `macbook-0..4, 6, 9`, `speaker-1..3, 9`, `earphone-4, 8`, `console-3`, `vr-8`).
+Rubén Menárguez, Mike Meyers, Immanuel Noah, Yudhajit Ghosh, Quang Vy, Vựa Táo, Giorgio Trovato, dan fotografer Unsplash lain
+(foto `macbook-1..4, 6, 9`, `speaker-1..3, 9`, `earphone-4, 8`, `console-3`, `vr-8`).
 
 ---
 

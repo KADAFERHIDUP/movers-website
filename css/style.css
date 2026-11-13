@@ -369,8 +369,9 @@ a.news-card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
   .buy-form { padding: 16px; }
   .tiles { grid-template-columns: 1fr; }
   .tile.wide { grid-column: auto; }
-  .tile { min-height: 260px; }
-  .tile .v3d, .tile.wide .v3d { width: 60%; }
+  .tile { min-height: 430px; }
+  .tile .v3d, .tile.wide .v3d { left: 0; right: 0; top: 0; width: auto; height: 58%; }
+  .shop-head .ghost { display: none; }
   .grid { gap: 10px; }
   .card-body { padding: 10px 12px 14px; }
   .card h3 { font-size: 15px; }
@@ -385,4 +386,11 @@ a.news-card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
   .badge { width: 104px; height: 104px; }
   .faces i { width: 38px; height: 38px; line-height: 32px; }
   .shop-bar { flex-direction: column; align-items: flex-start; }
+}
+
+/* layar sentuh: jangan biarkan efek hover 'nyangkut' setelah disentuh */
+@media (hover: none) {
+  .card:hover, .tile:hover, a.news-card:hover, .pill-btn:hover { transform: none; box-shadow: none; }
+  .card:hover .card-media > img { transform: none; }
+  .add-btn:hover { background: var(--ink); color: #fff; transform: none; }
 }
