@@ -46,27 +46,27 @@
 
     <!-- kategori (kotak-kotak seperti template) -->
     <section class="tiles" id="kategori" aria-label="Kategori">
-      <a class="tile t-black reveal" href="product.html?id=earphone">
+      <a class="tile t-black reveal" href="shop.html?cat=earphone">
         <div class="tile-text"><small>Nikmati</small><b>Earphone</b><span class="outline">AUDIO</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="earphone" data-spin="0.4"><img class="v3d-still" src="img/stills/earphone.webp" alt="" width="600" height="600"></div>
       </a>
-      <a class="tile t-lime reveal" href="product.html?id=watch-s9">
+      <a class="tile t-lime reveal" href="shop.html?cat=watch">
         <div class="tile-text"><small>Baru</small><b>Apple Watch</b><span class="outline">WATCH</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="watch-s9" data-spin="0.35"><img class="v3d-still" src="img/stills/watch-s9.webp" alt="" width="600" height="600"></div>
       </a>
-      <a class="tile t-white wide reveal" href="product.html?id=macbook">
+      <a class="tile t-white wide reveal" href="shop.html?cat=macbook">
         <div class="tile-text"><small>Tren</small><b>MacBook Pro</b><span class="outline">LAPTOP</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="macbook" data-spin="0.25"><img class="v3d-still" src="img/stills/macbook.webp" alt="" width="600" height="600"></div>
       </a>
-      <a class="tile t-white wide reveal" href="product.html?id=ps5-controller">
+      <a class="tile t-white wide reveal" href="shop.html?cat=console">
         <div class="tile-text"><small>Terbaik</small><b>Gaming</b><span class="outline">CONSOLE</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="ps5-controller" data-spin="0.3"><img class="v3d-still" src="img/stills/ps5-controller.webp" alt="" width="600" height="600"></div>
       </a>
-      <a class="tile t-black reveal" href="product.html?id=quest">
+      <a class="tile t-black reveal" href="shop.html?cat=vr">
         <div class="tile-text"><small>Main</small><b>Game VR</b><span class="outline">OCULUS</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="quest" data-spin="0.4"><img class="v3d-still" src="img/stills/quest.webp" alt="" width="600" height="600"></div>
       </a>
-      <a class="tile t-lime reveal" href="product.html?id=speaker">
+      <a class="tile t-lime reveal" href="shop.html?cat=speaker">
         <div class="tile-text"><small>Baru</small><b>Speaker</b><span class="outline">SPEAKER</span><span class="tile-btn">Lihat</span></div>
         <div class="v3d" data-model="speaker" data-spin="0.35"><img class="v3d-still" src="img/stills/speaker.webp" alt="" width="600" height="600"></div>
       </a>
@@ -82,7 +82,7 @@
 
     <!-- promo 1: kartu hitam dengan lencana berputar -->
     <section class="promo promo-dark reveal" aria-labelledby="promo1">
-      <div class="badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="ring1" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs><text><textPath href="#ring1">MULAI SEKARANG • MULAI SEKARANG •</textPath></text></svg><span data-icon="bolt"></span></div>
+      <div class="badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="ring1" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs><text><textPath href="#ring1" textLength="231" lengthAdjust="spacing">MULAI SEKARANG  •  MULAI SEKARANG  •  </textPath></text></svg><span data-icon="bolt"></span></div>
       <div class="promo-left">
         <small class="lime-text">Diskon 17% · 15 Nov – 15 Des</small>
         <h2 id="promo1" class="display">PESTA<br>TANPA<br>HENTI.</h2>
@@ -123,12 +123,30 @@
     <section class="section" aria-labelledby="news">
       <div class="sec-head reveal">
         <h2 id="news" class="display-sm">KABAR <mark>TERBARU</mark></h2>
-        <p>Tips memilih dan merawat gadget kamu.</p>
+        <p>Saran dan berita gadget pilihan dari media teknologi. Klik untuk membaca artikel lengkapnya.</p>
       </div>
       <div class="news">
-        <article class="news-card reveal"><img src="img/news/news-1.webp" alt="Orang mencoba headset VR" loading="lazy" width="900" height="601"><small>12 Nov 2026 · Panduan</small><h3>Cara memilih headset VR pertama kamu</h3><p>Standalone atau PC VR? Bandingkan kenyamanan, game, dan budget sebelum membeli.</p></article>
-        <article class="news-card reveal"><img src="img/news/news-2.webp" alt="Smartwatch di pergelangan tangan" loading="lazy" width="900" height="601"><small>8 Nov 2026 · Tips</small><h3>5 fitur smartwatch yang wajib dicoba</h3><p>Dari pantau tidur sampai bayar tanpa HP, ini fitur yang paling sering dipakai.</p></article>
-        <article class="news-card reveal"><img src="img/news/news-3.webp" alt="Setup gaming dengan headset" loading="lazy" width="900" height="1090"><small>2 Nov 2026 · Setup</small><h3>Setup laptop gaming yang rapi dan nyaman</h3><p>Controller, headphone, dan speaker yang pas supaya main makin seru.</p></article>
+        <a class="news-card reveal" href="https://id.my-best.com/1576" target="_blank" rel="noopener">
+          <img src="img/news/news-1.webp" alt="Orang mencoba headset VR" loading="lazy" width="900" height="601">
+          <small>mybest Indonesia · Panduan VR</small>
+          <h3>Cara memilih headset VR, ditinjau praktisi IT</h3>
+          <p>Bedanya VR standalone, VR untuk PC atau konsol, dan VR box untuk HP, plus rekomendasinya.</p>
+          <span class="news-more">Baca di mybest <span data-icon="arrowUR"></span></span>
+        </a>
+        <a class="news-card reveal" href="https://inet.detik.com/consumer/d-8030985/smartwatch-untuk-orang-tua-ini-fitur-yang-wajib-ada" target="_blank" rel="noopener">
+          <img src="img/news/news-2.webp" alt="Smartwatch di pergelangan tangan" loading="lazy" width="900" height="601">
+          <small>detikInet · Smartwatch</small>
+          <h3>Smartwatch untuk orang tua: ini fitur yang wajib ada</h3>
+          <p>Pemantauan kesehatan, deteksi jatuh, GPS, sampai pengingat obat untuk keluarga di rumah.</p>
+          <span class="news-more">Baca di detikInet <span data-icon="arrowUR"></span></span>
+        </a>
+        <a class="news-card reveal" href="https://eraspace.com/artikel/post/set-up-gaming-room-02" target="_blank" rel="noopener">
+          <img src="img/news/news-3.webp" alt="Setup laptop di meja kerja" loading="lazy" width="900" height="1090">
+          <small>Eraspace · Setup gaming</small>
+          <h3>7 tips set up gaming room di rumah</h3>
+          <p>Mulai dari konsep, meja dan kursi ergonomis, sampai merapikan kabel supaya main makin nyaman.</p>
+          <span class="news-more">Baca di Eraspace <span data-icon="arrowUR"></span></span>
+        </a>
       </div>
     </section>
 
@@ -144,8 +162,12 @@
     import { setup, card, PRODUCTS, ICON, $, $$ } from './js/common.js';
     // ikon & tombol panah
     $$('[data-icon]').forEach(el => { el.innerHTML = ICON[el.dataset.icon] || ''; });
-    $$('.tile-btn').forEach(el => { el.innerHTML = 'Lihat ' + ICON.arrow; });
-    const best = ['headphone', 'macbook', 'watch-ultra', 'earphone', 'speaker', 'ps5-controller', 'quest', 'watch-s9'];
+    // tombol kotak kategori menyebut jumlah produknya
+    $$('.tile').forEach(t => {
+      const cat = new URL(t.href).searchParams.get('cat'), n = PRODUCTS.filter(p => p.cat === cat).length;
+      t.querySelector('.tile-btn').innerHTML = `Lihat ${n} produk ${ICON.arrow}`;
+    });
+    const best = ['headphone', 'headphone-1', 'macbook', 'watch-0', 'earphone-1', 'speaker-4', 'ps5-controller', 'vr-1'];
     $('#best-grid').innerHTML = best.map(id => card(PRODUCTS.find(p => p.id === id))).join('');
     setup('home');
   </script>

@@ -30,6 +30,10 @@
     const off = p.was ? Math.round((1 - p.price / p.was) * 100) : 0;
     const stars = n => Array.from({ length: 5 }, (_, i) => `<i class="${i < Math.round(n) ? 'on' : ''}">${ICON.star}</i>`).join('');
     const related = PRODUCTS.filter(x => x.id !== p.id).sort((a, b) => (b.cat === p.cat) - (a.cat === p.cat)).slice(0, 4);
+    // produk dengan model 3D memakai penampil 3D; produk dari foto memakai foto tanpa background
+    const media = (cls, extra = '') => p.model
+      ? `<div class="v3d ${cls}" data-model="${p.id}" ${extra}><img class="v3d-still" src="${p.img}" alt="${p.name}" width="600" height="600"></div>`
+      : `<div class="photo ${cls}"><img src="${p.img}" alt="${p.name}"></div>`;
 
     $('#main').innerHTML = `
     <section class="hero panel p-hero" aria-labelledby="p-title">
@@ -47,13 +51,13 @@
         <span class="ring" title="${SHOP.shipping}">${ICON.clock}</span>
       </div>
       <div class="bars" aria-hidden="true"><i></i><i></i></div>
-      <div class="v3d hero-model" data-model="${p.id}" data-drag data-spin="0.18" data-fill="1"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="${p.name}" width="600" height="600"></div>
+      ${media('hero-model', 'data-drag data-spin="0.18" data-fill="1"')}
       <div class="hero-rate reveal">
         <div class="rate-row"><b>${p.rating}</b><span>/5</span>
           <span class="faces" aria-hidden="true"><i style="--h:18">RA</i><i style="--h:330">DS</i><i style="--h:205">FA</i></span></div>
         <p>${p.blurb}</p>
       </div>
-      <span class="drag-hint" aria-hidden="true">${ICON.rotate} geser untuk memutar</span>
+      ${p.model ? `<span class="drag-hint" aria-hidden="true">${ICON.rotate} geser untuk memutar</span>` : ''}
     </section>
 
     <section class="buy panel reveal" id="beli" aria-labelledby="buy-title">
@@ -82,13 +86,13 @@
     </section>
 
     <section class="promo promo-dark power reveal" aria-labelledby="pw-title">
-      <div class="badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="ring1" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs><text><textPath href="#ring1">MULAI SEKARANG • MULAI SEKARANG •</textPath></text></svg>${ICON.bolt}</div>
+      <div class="badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="ring1" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs><text><textPath href="#ring1" textLength="231" lengthAdjust="spacing">MULAI SEKARANG  •  MULAI SEKARANG  •  </textPath></text></svg>${ICON.bolt}</div>
       <div class="promo-left">
         <h2 id="pw-title" class="display-md">LEBIH DARI<br>SEKADAR<br><span class="lime-text">${p.short.toUpperCase()}.</span></h2>
         <p>${p.power}</p>
         <a class="pill-btn outline-light" href="#sisi">Lihat detailnya ${ICON.arrow}</a>
       </div>
-      <div class="v3d promo-model" data-model="${p.id}" data-spin="0.3" data-fill="1.2"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="" width="600" height="600"></div>
+      ${media('promo-model', 'data-spin="0.3" data-fill="1.2"')}
     </section>
 
     <section class="section specs" aria-labelledby="sp-title">
@@ -102,17 +106,17 @@
 
     <section class="section angles panel" id="sisi" aria-labelledby="an-title">
       <div class="angles-text reveal">
-        <h2 id="an-title" class="display-sm">LIHAT DARI<br><mark>SETIAP SISI</mark></h2>
-        <div class="tabs" role="tablist" aria-label="Sudut pandang">
+        <h2 id="an-title" class="display-sm">${p.model ? 'LIHAT DARI<br><mark>SETIAP SISI</mark>' : 'KENAPA<br><mark>PILIH INI</mark>'}</h2>
+        ${p.model ? `<div class="tabs" role="tablist" aria-label="Sudut pandang">
           <button role="tab" aria-selected="true" data-face="0">Depan</button>
           <button role="tab" aria-selected="false" data-face="1.5708">Samping</button>
           <button role="tab" aria-selected="false" data-face="3.1416">Belakang</button>
-        </div>
+        </div>` : '<div class="tabs-gap"></div>'}
         <ol class="feats">
           ${p.feats.map(([t, d], i) => `<li><span class="num">0${i + 1}</span><div><b>${t}</b><p>${d}</p></div></li>`).join('')}
         </ol>
       </div>
-      <div class="v3d angle-model" data-model="${p.id}" data-drag data-spin="0" data-fill="0.95"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="" width="600" height="600"></div>
+      ${media('angle-model', 'data-drag data-spin="0" data-fill="0.95"')}
     </section>
 
     <section class="section" aria-labelledby="rel-title">
@@ -142,6 +146,7 @@
 
     // tab sudut pandang memutar model
     const angle = $('.angle-model');
+    if (p.model) {
     $$('[data-face]').forEach(b => b.addEventListener('click', () => {
       $$('[data-face]').forEach(x => x.setAttribute('aria-selected', String(x === b)));
       viewerOf(angle)?.face(+b.dataset.face, 0);
@@ -150,6 +155,17 @@
       const tabs = $$('[data-face]'), i = tabs.indexOf(document.activeElement);
       if (i < 0 || !['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
       const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click();
+    });
+    }
+
+    // foto produk: sedikit miring mengikuti kursor
+    $$('.photo').forEach(el => {
+      const img = el.querySelector('img');
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        img.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`); img.style.setProperty('--ry', `${(x * 14).toFixed(2)}deg`);
+      });
+      el.addEventListener('pointerleave', () => { img.style.removeProperty('--rx'); img.style.removeProperty('--ry'); });
     });
 
     setup('shop');

@@ -61,8 +61,12 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 .nav { display: flex; gap: 26px; }
 .nav a { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); padding: 6px 0; border-bottom: 2px solid transparent; }
 .nav a:hover, .nav a[aria-current] { border-color: var(--ink); }
-.logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: .08em; font-size: 18px; }
-.logo-dot { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--lime); display: grid; place-items: center; font-size: 18px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .1em; font-size: 17px; line-height: 1; }
+.logo b { font-weight: 800; padding-top: 1px; }
+.logo-mark { width: 38px; height: 38px; flex: none; }
+.logo-mark .lm-bg { fill: var(--ink); }
+.logo-mark .lm-fg { fill: none; stroke: var(--lime); stroke-width: 3.2; stroke-linecap: round; }
+.logo:hover .logo-mark .lm-fg { stroke: #fff; }
 .bar-right { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
 .bar-right .pill-btn { height: 40px; padding: 0 16px; font-size: 14px; }
 .cart-count { position: absolute; top: 2px; right: 0; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; background: var(--lime); color: var(--ink); font-size: 11px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--bg); }
@@ -111,6 +115,14 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 
 /* ---------- penampil 3D ---------- */
 .v3d { position: relative; }
+/* foto produk tanpa background (dipakai di tempat penampil 3D untuk produk dari foto) */
+.photo { position: relative; display: grid; place-items: center; perspective: 900px; }
+.photo img { width: 82%; height: 82%; object-fit: contain; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .35)); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease); animation: floaty 6s ease-in-out infinite; }
+.promo-dark .photo img { filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .5)); }
+/* foto tidak transparan seperti model 3D, jadi diletakkan sedikit lebih rendah supaya judul tetap terbaca */
+.hero .photo.hero-model { top: 26%; left: 38%; width: min(54%, 62vh); }
+@keyframes floaty { 50% { translate: 0 -10px; } }
+.tabs-gap { height: 22px; }
 .v3d-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
 .v3d-still { position: absolute; inset: 6%; width: 88%; height: 88%; object-fit: contain; transition: opacity .6s; pointer-events: none; }
 .v3d.is-ready .v3d-still { opacity: 0; }
@@ -156,7 +168,7 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 .promo-model { aspect-ratio: 1; width: 100%; max-width: 460px; justify-self: center; margin: -40px 0; }
 .badge { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); width: 124px; height: 124px; border-radius: 50%; background: var(--lime); color: var(--ink); display: grid; place-items: center; box-shadow: 0 0 0 12px var(--bg); z-index: 2; }
 .badge > svg:first-child { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); animation: spin 14s linear infinite; }
-.badge text { font: 700 9.4px var(--font); letter-spacing: .22em; fill: var(--ink); }
+.badge text { font: 700 9px var(--font); fill: var(--ink); white-space: pre; }
 .badge > svg:last-child, .badge > span { font-size: 30px; }
 .badge > span svg { width: 30px; height: 30px; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -174,6 +186,7 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 .card:hover .card-media > img { transform: scale(1.06) rotate(-2deg); }
 .card-media .v3d { position: absolute; inset: 0; }
 .tag { position: absolute; z-index: 2; top: 12px; left: 12px; background: var(--lime); color: var(--ink); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 800; }
+.card .tag-3d { left: auto; right: 12px; background: var(--ink); color: var(--lime); }
 .card-body { padding: 14px 18px 18px; display: grid; gap: 4px; flex: 1; }
 .card-cat { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .card h3 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
@@ -191,6 +204,10 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 .news-card small { color: var(--muted); padding: 0 12px; }
 .news-card h3 { margin: 4px 12px 6px; font-size: 20px; letter-spacing: -.02em; line-height: 1.2; }
 .news-card p { margin: 0 12px; color: var(--muted); font-size: 15px; }
+a.news-card { display: block; transition: transform .3s var(--ease), box-shadow .3s; }
+a.news-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -24px rgba(0, 0, 0, .35); }
+a.news-card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
+.news-more { display: inline-flex; align-items: center; gap: 6px; margin: 14px 12px 0; font-weight: 700; font-size: 14px; }
 .brands { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 16px 36px; padding: 34px 20px; margin: 20px 0 0; border-radius: var(--radius); background: var(--panel); }
 .brands span { font-weight: 900; font-size: clamp(20px, 2.6vw, 34px); letter-spacing: .06em; color: rgba(14, 14, 13, .22); }
 
@@ -198,12 +215,16 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 .site-footer { margin: clamp(24px, 3vw, 40px) var(--pad) var(--pad); background: var(--ink); color: #fff; border-radius: var(--radius); padding: clamp(32px, 4vw, 56px); max-width: 1480px; }
 @media (min-width: 1560px) { .site-footer { margin-left: auto; margin-right: auto; } }
 .foot { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1.6fr; gap: 32px; }
+.foot > * { min-width: 0; }
+.news-row .pill-btn { flex: none; }
 .foot h3 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); margin: 0 0 14px; }
-.foot a, .foot span { display: block; color: rgba(255, 255, 255, .72); margin-bottom: 8px; }
-.foot a:hover { color: #fff; }
+.foot > div > a:not(.logo), .foot > div > span { display: block; color: rgba(255, 255, 255, .72); margin-bottom: 8px; }
+.foot > div > a:not(.logo):hover { color: #fff; }
 .foot-brand p { color: rgba(255, 255, 255, .6); max-width: 300px; }
-.foot-brand .logo-dot { background: var(--lime); color: var(--ink); }
-.foot-brand .logo { color: #fff; margin-bottom: 14px; display: inline-flex; }
+.foot-brand .logo { color: #fff; margin-bottom: 16px; }
+.foot-brand .logo-mark .lm-bg { fill: var(--lime); }
+.foot-brand .logo-mark .lm-fg { stroke: var(--ink); }
+.foot-brand .logo:hover .logo-mark .lm-fg { stroke: var(--ink); }
 .foot-news .big { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 14px; }
 .news-row { display: flex; gap: 8px; background: rgba(255, 255, 255, .08); border-radius: 999px; padding: 5px; }
 .news-row input { flex: 1; min-width: 0; background: transparent; border: 0; padding: 0 14px; color: #fff; outline: none; }
@@ -305,7 +326,7 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
 /* ---------- responsif ---------- */
 @media (max-width: 1100px) {
   .grid { grid-template-columns: repeat(3, 1fr); }
-  .foot { grid-template-columns: 1fr 1fr; }
+  .foot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .perks { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 900px) {
@@ -358,7 +379,8 @@ main { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 1f
   .news { grid-template-columns: 1fr; }
   .news-card:last-child { display: block; }
   .perks { grid-template-columns: 1fr; }
-  .foot { grid-template-columns: 1fr; }
+  .foot { grid-template-columns: minmax(0, 1fr); }
+  .news-row input { padding: 0 10px; }
   .promo-left .display { font-size: 52px; }
   .badge { width: 104px; height: 104px; }
   .faces i { width: 38px; height: 38px; line-height: 32px; }

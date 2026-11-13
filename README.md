@@ -8,24 +8,18 @@ Website toko MOVERS dengan produk yang bisa diputar dalam 3D. Halaman utamanya m
 | --- | --- |
 | `index.html` | Hero headphone 3D, kotak kategori 3D (earphone, Apple Watch, MacBook, gaming, VR, speaker), keunggulan, dua banner promo 3D, produk terlaris, kabar terbaru, merek |
 | `product.html?id=...` | Halaman per produk: judul besar dengan pita lime, model 3D yang bisa diputar, panel beli (warna, jumlah, keranjang, WhatsApp), kartu hitam dengan lencana berputar, angka spesifikasi, tab "lihat dari setiap sisi", produk lainnya |
-| `shop.html` | Semua produk dengan filter kategori dan urutan harga |
+| `shop.html?cat=...` | Semua produk atau satu kategori (MacBook, Headphone, Earphone, Apple Watch, Speaker, Console, VR), dengan urutan harga |
 
 Keranjang tersimpan di browser. Checkout mengirim rincian pesanan ke WhatsApp toko.
 
 ## Produk
 
-| id | Produk | Model |
-| --- | --- | --- |
-| `headphone` | Headphone Wireless Pro | `models/headphone.glb` |
-| `earphone` | Earphone TWS Air | `models/earphone.glb` |
-| `macbook` | MacBook Pro 14" | `models/macbook.glb` |
-| `speaker` | JBL Charge 3 | `models/speaker.glb` |
-| `watch-ultra` | Apple Watch Ultra 2 | `models/watch-ultra.glb` |
-| `watch-s9` | Apple Watch Series 9 | `models/watch-s9.glb` |
-| `ps5-controller` | DualSense Controller | `models/ps5-controller.glb` |
-| `ps5-hologram` | DualSense Hologram Edition | `models/ps5-hologram.glb` |
-| `quest` | Meta Quest 2 | `models/quest.glb` |
-| `rift` | Oculus Rift S | `models/rift.glb` |
+Ada dua jenis produk di `js/data.js`:
+
+- **Produk 3D** (10): halaman produknya memakai model 3D yang bisa diputar (`models/*.glb`, gambar cadangan di `img/stills/`).
+- **Produk foto** (56): foto produk yang background-nya sudah dihapus (`img/produk/<id>.webp`). Halaman produknya memakai foto melayang yang sedikit miring mengikuti kursor.
+
+Kategori: MacBook, Headphone, Earphone, Apple Watch, Speaker, Console, VR.
 
 Harga, stok, warna, dan spesifikasi ada di `js/data.js` dan masih berupa contoh, jadi sesuaikan dengan barang yang dijual. Nomor WhatsApp juga diatur di file yang sama.
 

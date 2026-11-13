@@ -6,6 +6,9 @@ export const $ = (s, r = document) => r.querySelector(s);
 export const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 const P = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+// Logo MOVERS: lingkaran berisi simbol tombol daya, digambar dalam satu SVG supaya selalu tepat di tengah.
+export const LOGO = `<svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" class="lm-bg"/><path d="M20 10.5v9" class="lm-fg"/><path d="M14.2 14.2a8.4 8.4 0 1 0 11.6 0" class="lm-fg"/></svg>`;
+
 export const ICON = {
   bag: P('<path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>'),
   arrow: P('<path d="M5 12h14M13 6l6 6-6 6"/>'),
@@ -41,7 +44,7 @@ function header(active) {
       ${link('index.html#kategori', 'Kategori', 'cat')}
       ${link('index.html#kontak', 'Bantuan', 'help')}
     </nav>
-    <a class="logo" href="index.html" aria-label="${SHOP.name} beranda"><span class="logo-dot">${ICON.power}</span><b>${SHOP.name}</b></a>
+    <a class="logo" href="index.html" aria-label="${SHOP.name} beranda">${LOGO}<b>${SHOP.name}</b></a>
     <div class="bar-right">
       <a class="icon-btn" href="shop.html" aria-label="Cari produk">${ICON.search}</a>
       <button class="icon-btn cart-btn" type="button" data-cart-open aria-label="Buka keranjang">${ICON.bag}<span class="cart-count" hidden>0</span></button>
@@ -61,7 +64,7 @@ function footer() {
   return `
   <div class="foot" id="kontak">
     <div class="foot-brand">
-      <a class="logo" href="index.html"><span class="logo-dot">${ICON.power}</span><b>${SHOP.name}</b></a>
+      <a class="logo" href="index.html" aria-label="${SHOP.name} beranda">${LOGO}<b>${SHOP.name}</b></a>
       <p>Toko gadget dan aksesoris untuk laptop, kerja, dan main. Barang original, bergaransi, dan dikirim ke seluruh Indonesia.</p>
     </div>
     <div><h3>Belanja</h3>${CATEGORIES.map(c => `<a href="shop.html?cat=${c.id}">${c.name}</a>`).join('')}</div>
@@ -83,13 +86,13 @@ function footer() {
 /* ---------- kartu produk ---------- */
 export function card(p, { live = false } = {}) {
   const off = p.was ? Math.round((1 - p.price / p.was) * 100) : 0;
-  const media = live
-    ? `<div class="v3d" data-model="${p.id}" data-spin="0.35"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="" loading="lazy" width="600" height="600"></div>`
-    : `<img src="img/stills/${p.id}.webp" alt="${p.name}" loading="lazy" width="600" height="600">`;
+  const media = live && p.model
+    ? `<div class="v3d" data-model="${p.id}" data-spin="0.35"><img class="v3d-still" src="${p.img}" alt="" loading="lazy" width="600" height="600"></div>`
+    : `<img src="${p.img}" alt="${p.name}" loading="lazy">`;
   return `
   <article class="card">
     <a class="card-media" href="product.html?id=${p.id}" aria-label="${p.name}">
-      ${off ? `<span class="tag">-${off}%</span>` : ''}${media}
+      ${off ? `<span class="tag">-${off}%</span>` : ''}${p.model ? '<span class="tag tag-3d">3D</span>' : ''}${media}
     </a>
     <div class="card-body">
       <span class="card-cat">${CATEGORIES.find(c => c.id === p.cat).name}</span>
@@ -132,7 +135,7 @@ function renderCart() {
   list.innerHTML = cart.length ? cart.map((i, k) => {
     const p = byId(i.id);
     return `<li class="cart-item">
-      <img src="img/stills/${p.id}.webp" alt="" width="72" height="72">
+      <img src="${p.img}" alt="" width="72" height="72">
       <div><a href="product.html?id=${p.id}">${p.name}</a><small>${i.color}</small><b>${rupiah(p.price * i.qty)}</b></div>
       <div class="qty" role="group" aria-label="Jumlah ${p.name}">
         <button type="button" data-q="${k}" data-d="-1" aria-label="Kurangi">${i.qty === 1 ? ICON.trash : ICON.minus}</button>
