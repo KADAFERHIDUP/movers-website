@@ -39,6 +39,12 @@ python -m http.server 8000
 - Tiap model hanya dimuat saat mendekati layar, dan gambar diam di `img/stills/` tampil sebagai cadangan kalau WebGL tidak tersedia
 - Model sudah dioptimasi untuk web: total sekitar 200 MB menjadi sekitar 21 MB
 
+## Kredit foto
+
+Sebagian foto produk diambil dari [Unsplash](https://unsplash.com) (Unsplash License), lalu latarnya dihapus:
+Howard Bouchevereau, Rubén Menárguez, Mike Meyers, Immanuel Noah, Yudhajit Ghosh, Quang Vy, Vựa Táo, Giorgio Trovato, dan fotografer Unsplash lain
+(foto `macbook-0..4, 6, 9`, `speaker-1..3, 9`, `earphone-4, 8`, `console-3`, `vr-8`).
+
 ---
 
 Dibuat oleh Ahmad Umraithi
