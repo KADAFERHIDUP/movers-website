@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Produk · MOVERS</title>
+  <meta name="description" content="Lihat produk MOVERS dalam 3D dan pesan langsung lewat WhatsApp.">
+  <meta name="theme-color" content="#efefec">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="modulepreload" href="vendor/three.module.js">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body class="page-product">
+  <header class="site-header" id="site-header"></header>
+  <main id="main"></main>
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script type="module">
+    import { setup, card, PRODUCTS, CATEGORIES, SHOP, ICON, byId, rupiah, $, $$, addToCart } from './js/common.js';
+    import { viewerOf } from './js/viewer.js';
+
+    const id = new URLSearchParams(location.search).get('id');
+    const p = byId(id) || PRODUCTS[0];
+    const cat = CATEGORIES.find(c => c.id === p.cat).name;
+    document.title = `${p.name} · ${SHOP.name}`;
+    $('meta[name=description]').content = p.blurb;
+    const off = p.was ? Math.round((1 - p.price / p.was) * 100) : 0;
+    const stars = n => Array.from({ length: 5 }, (_, i) => `<i class="${i < Math.round(n) ? 'on' : ''}">${ICON.star}</i>`).join('');
+    const related = PRODUCTS.filter(x => x.id !== p.id).sort((a, b) => (b.cat === p.cat) - (a.cat === p.cat)).slice(0, 4);
+
+    $('#main').innerHTML = `
+    <section class="hero panel p-hero" aria-labelledby="p-title">
+      <span class="ghost" aria-hidden="true">${p.ghost}</span>
+      <nav class="crumbs reveal" aria-label="Lokasi"><a href="index.html">Beranda</a><span>/</span><a href="shop.html?cat=${p.cat}">${cat}</a><span>/</span><span aria-current="page">${p.name}</span></nav>
+      <h1 id="p-title" class="display reveal">
+        <span class="sr">${p.name}: </span>
+        <span class="line">${p.headline[0]}</span>
+        <span class="pill-line"><span class="pill-word">${p.headline[1]}</span>
+          <a class="pill-cta" href="#beli"><span>Beli<br>sekarang</span><i>→</i></a></span>
+      </h1>
+      <div class="hero-icons reveal" aria-label="Keunggulan">
+        <span class="ring" title="${p.feats[0][0]}">${ICON.bolt}</span>
+        <span class="ring" title="Konsultasi via WhatsApp">${ICON.phone}</span>
+        <span class="ring" title="${SHOP.shipping}">${ICON.clock}</span>
+      </div>
+      <div class="bars" aria-hidden="true"><i></i><i></i></div>
+      <div class="v3d hero-model" data-model="${p.id}" data-drag data-spin="0.18" data-fill="1"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="${p.name}" width="600" height="600"></div>
+      <div class="hero-rate reveal">
+        <div class="rate-row"><b>${p.rating}</b><span>/5</span>
+          <span class="faces" aria-hidden="true"><i style="--h:18">RA</i><i style="--h:330">DS</i><i style="--h:205">FA</i></span></div>
+        <p>${p.blurb}</p>
+      </div>
+      <span class="drag-hint" aria-hidden="true">${ICON.rotate} geser untuk memutar</span>
+    </section>
+
+    <section class="buy panel reveal" id="beli" aria-labelledby="buy-title">
+      <div class="buy-main">
+        <span class="card-cat">${cat}</span>
+        <h2 id="buy-title">${p.name}</h2>
+        <div class="stars" aria-label="Rating ${p.rating} dari 5">${stars(p.rating)}<span>${p.rating} (${p.reviews} ulasan)</span></div>
+        <div class="buy-price"><b>${rupiah(p.price)}</b>${p.was ? `<s>${rupiah(p.was)}</s><span class="tag">-${off}%</span>` : ''}</div>
+        <p>${p.blurb}</p>
+      </div>
+      <form class="buy-form" id="buy-form">
+        <fieldset class="chips"><legend>Warna</legend>
+          ${p.colors.map((c, i) => `<label><input type="radio" name="color" value="${c}"${i ? '' : ' checked'}><span>${c}</span></label>`).join('')}
+        </fieldset>
+        <div class="buy-row">
+          <div class="qty big" role="group" aria-label="Jumlah">
+            <button type="button" data-step="-1" aria-label="Kurangi">${ICON.minus}</button>
+            <output id="qty" aria-live="polite">1</output>
+            <button type="button" data-step="1" aria-label="Tambah">${ICON.plus}</button>
+          </div>
+          <button class="pill-btn lime grow" type="submit">${ICON.bag} Tambah ke keranjang</button>
+        </div>
+        <a class="pill-btn dark wide" id="wa-buy" target="_blank" rel="noopener">${ICON.wa} Beli langsung via WhatsApp</a>
+        <p class="muted small">Stok ${p.stock} unit · ${SHOP.shipping}</p>
+      </form>
+    </section>
+
+    <section class="promo promo-dark power reveal" aria-labelledby="pw-title">
+      <div class="badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="ring1" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs><text><textPath href="#ring1">MULAI SEKARANG • MULAI SEKARANG •</textPath></text></svg>${ICON.bolt}</div>
+      <div class="promo-left">
+        <h2 id="pw-title" class="display-md">LEBIH DARI<br>SEKADAR<br><span class="lime-text">${p.short.toUpperCase()}.</span></h2>
+        <p>${p.power}</p>
+        <a class="pill-btn outline-light" href="#sisi">Lihat detailnya ${ICON.arrow}</a>
+      </div>
+      <div class="v3d promo-model" data-model="${p.id}" data-spin="0.3" data-fill="1.2"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="" width="600" height="600"></div>
+    </section>
+
+    <section class="section specs" aria-labelledby="sp-title">
+      <div class="sec-head center reveal">
+        <h2 id="sp-title" class="display-sm">KECIL DI LUAR<br><mark>BESAR DI DALAM</mark></h2>
+      </div>
+      <div class="spec-grid">
+        ${p.specs.map(([n, u, l]) => `<div class="spec reveal"><b>${n}<small>${u}</small></b><span>${l}</span></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section angles panel" id="sisi" aria-labelledby="an-title">
+      <div class="angles-text reveal">
+        <h2 id="an-title" class="display-sm">LIHAT DARI<br><mark>SETIAP SISI</mark></h2>
+        <div class="tabs" role="tablist" aria-label="Sudut pandang">
+          <button role="tab" aria-selected="true" data-face="0">Depan</button>
+          <button role="tab" aria-selected="false" data-face="1.5708">Samping</button>
+          <button role="tab" aria-selected="false" data-face="3.1416">Belakang</button>
+        </div>
+        <ol class="feats">
+          ${p.feats.map(([t, d], i) => `<li><span class="num">0${i + 1}</span><div><b>${t}</b><p>${d}</p></div></li>`).join('')}
+        </ol>
+      </div>
+      <div class="v3d angle-model" data-model="${p.id}" data-drag data-spin="0" data-fill="0.95"><img class="v3d-still" src="img/stills/${p.id}.webp" alt="" width="600" height="600"></div>
+    </section>
+
+    <section class="section" aria-labelledby="rel-title">
+      <div class="sec-head reveal">
+        <h2 id="rel-title" class="display-sm">PRODUK <mark>LAINNYA</mark></h2>
+        <a class="pill-btn dark" href="shop.html">Semua produk ${ICON.arrow}</a>
+      </div>
+      <div class="grid">${related.map(x => card(x)).join('')}</div>
+    </section>`;
+
+    // jumlah & warna
+    let qty = 1;
+    const form = $('#buy-form'), out = $('#qty');
+    const color = () => new FormData(form).get('color');
+    const waLink = () => {
+      const msg = `Halo ${SHOP.name}, saya mau beli ${p.name} (${color()}) sebanyak ${qty} unit. Total ${rupiah(p.price * qty)}. Masih ada stok?`;
+      $('#wa-buy').href = `https://wa.me/${SHOP.wa}?text=${encodeURIComponent(msg)}`;
+    };
+    $$('[data-step]').forEach(b => b.addEventListener('click', () => {
+      qty = Math.max(1, Math.min(p.stock, qty + +b.dataset.step)); out.textContent = qty;
+      $('[data-step="-1"]').disabled = qty <= 1; $('[data-step="1"]').disabled = qty >= p.stock; waLink();
+    }));
+    $('[data-step="-1"]').disabled = true;
+    form.addEventListener('change', waLink);
+    form.addEventListener('submit', e => { e.preventDefault(); addToCart(p.id, qty, color()); });
+    waLink();
+
+    // tab sudut pandang memutar model
+    const angle = $('.angle-model');
+    $$('[data-face]').forEach(b => b.addEventListener('click', () => {
+      $$('[data-face]').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+      viewerOf(angle)?.face(+b.dataset.face, 0);
+    }));
+    $('.tabs').addEventListener('keydown', e => {
+      const tabs = $$('[data-face]'), i = tabs.indexOf(document.activeElement);
+      if (i < 0 || !['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click();
+    });
+
+    setup('shop');
+  </script>
+</body>
+</html>

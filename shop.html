@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Semua produk · MOVERS</title>
+  <meta name="description" content="Semua produk MOVERS: laptop, audio, smartwatch, gaming, dan VR.">
+  <meta name="theme-color" content="#efefec">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main">
+    <section class="shop-head panel">
+      <span class="ghost" aria-hidden="true">SHOP</span>
+      <h1 class="display-md">SEMUA <mark>PRODUK</mark></h1>
+      <p>Original, bergaransi, dan bisa diputar 3D di halaman masing-masing.</p>
+      <div class="filters" role="toolbar" aria-label="Filter kategori" id="filters"></div>
+    </section>
+    <section class="section">
+      <div class="shop-bar"><span id="count" aria-live="polite"></span>
+        <label class="sort">Urutkan
+          <select id="sort"><option value="pop">Terpopuler</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option></select></label></div>
+      <div class="grid" id="shop-grid"></div>
+    </section>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script type="module">
+    import { setup, card, PRODUCTS, CATEGORIES, $, $$ } from './js/common.js';
+    const params = new URLSearchParams(location.search);
+    let cat = CATEGORIES.some(c => c.id === params.get('cat')) ? params.get('cat') : 'all';
+    $('#filters').innerHTML = [{ id: 'all', name: 'Semua' }, ...CATEGORIES]
+      .map(c => `<button type="button" data-cat="${c.id}" aria-pressed="${c.id === cat}">${c.name}</button>`).join('');
+    function render() {
+      const sort = $('#sort').value;
+      let list = PRODUCTS.filter(p => cat === 'all' || p.cat === cat);
+      if (sort === 'low') list = [...list].sort((a, b) => a.price - b.price);
+      if (sort === 'high') list = [...list].sort((a, b) => b.price - a.price);
+      if (sort === 'pop') list = [...list].sort((a, b) => b.reviews - a.reviews);
+      $('#shop-grid').innerHTML = list.map(p => card(p)).join('');
+      $('#count').textContent = `${list.length} produk`;
+    }
+    $('#filters').addEventListener('click', e => {
+      const b = e.target.closest('[data-cat]'); if (!b) return;
+      cat = b.dataset.cat; $$('[data-cat]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      history.replaceState(null, '', cat === 'all' ? 'shop.html' : `shop.html?cat=${cat}`); render();
+    });
+    $('#sort').addEventListener('change', render);
+    render();
+    setup('shop');
+  </script>
+</body>
+</html>
